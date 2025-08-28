@@ -1,0 +1,40 @@
+{
+  "name": "webalex-windows_networking",
+  "version": "0.1.0",
+  "author": "webalex",
+  "summary": "Manage the windows networking settings with Puppet",
+  "license": "Apache-2.0",
+  "source": "https://github.com/webalexeu/puppet-windows_networking.git",
+  "project_page": "https://github.com/webalexeu/puppet-windows_networking",
+  "issues_url": "https://github.com/webalexeu/puppet-windows_networking/issues",
+  "dependencies": [
+
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "windows",
+      "operatingsystemrelease": [
+        "2016",
+        "2019",
+        "2022",
+        "2025",
+        "10",
+        "11"
+      ]
+    }
+  ],
+  "tags": [
+            "windows",
+            "dns",
+            "nrpt"
+          ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 6.0.0 < 9.0.0"
+    }
+  ],
+  "pdk-version": "3.5.0",
+  "template-url": "pdk-default#3.5.0",
+  "template-ref": "tags/3.5.0-0-ged6c77a"
+}
