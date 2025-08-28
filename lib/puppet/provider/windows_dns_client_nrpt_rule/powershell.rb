@@ -6,7 +6,7 @@ Puppet::Type.type(:windows_dns_client_nrpt_rule).provide(:windows_dns_client_nrp
   desc 'Windows Dns Client NRPT Rule'
   
 
-  POWERSHELL=['powershell.exe', '-ExecutionPolicy', 'Bypass', '-Command']
+  POWERSHELL = ['powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command']
 
   def exists?
     @property_hash[:ensure] == :present
@@ -75,31 +75,31 @@ Puppet::Type.type(:windows_dns_client_nrpt_rule).provide(:windows_dns_client_nrp
   def self.instances
     powershell_script = <<-PS
       Get-DnsClientNrptRule | ForEach-Object {
-          [PSCustomObject]@{
-              Name                             = $_.Name
-              Namespace                        = if ($_.Namespace) { @($_.Namespace) } else { $null }
-              NameEncoding                     = $_.NameEncoding
-              NameServers                      = if ($_.NameServers) { @($_.NameServers | ForEach-Object { $_.IPAddressToString }) } else { $null }
-              Comment                          = $_.Comment
-              DisplayName                      = $_.DisplayName
-              DirectAccessEnabled              = $_.DirectAccessEnabled
-              DirectAccessProxyName            = $_.DirectAccessProxyName
-              DirectAccessProxyType            = $_.DirectAccessProxyType
-              DirectAccessQueryIPsecEncryption = $_.DirectAccessQueryIPsecEncryption
-              DirectAccessQueryIPsecRequired   = $_.DirectAccessQueryIPsecRequired
-              DnsSecEnabled                    = $_.DnsSecEnabled
-              DnsSecQueryIPsecEncryption       = $_.DnsSecQueryIPsecEncryption
-              DnsSecQueryIPsecRequired         = $_.DnsSecQueryIPsecRequired
-              DnsSecValidationRequired         = $_.DnsSecValidationRequired
-              IPsecCARestriction               = $_.IPsecCARestriction
-              DAIPsecRequired                  = $_.DAIPsecRequired
-              DAIPsecEncryptionType            = $_.DAIPsecEncryptionType
-              DANameServers                    = if ($_.DANameServers) { @($_.DANameServers | ForEach-Object { $_.IPAddressToString }) } else { $null }
-          }
+        [PSCustomObject]@{
+          Name                             = $_.Name
+          Namespace                        = if ($_.Namespace) { @($_.Namespace) } else { $null }
+          NameEncoding                     = $_.NameEncoding
+          NameServers                      = if ($_.NameServers) { @($_.NameServers | ForEach-Object { $_.IPAddressToString }) } else { $null }
+          Comment                          = $_.Comment
+          DisplayName                      = $_.DisplayName
+          DirectAccessEnabled              = $_.DirectAccessEnabled
+          DirectAccessProxyName            = $_.DirectAccessProxyName
+          DirectAccessProxyType            = $_.DirectAccessProxyType
+          DirectAccessQueryIPsecEncryption = $_.DirectAccessQueryIPsecEncryption
+          DirectAccessQueryIPsecRequired   = $_.DirectAccessQueryIPsecRequired
+          DnsSecEnabled                    = $_.DnsSecEnabled
+          DnsSecQueryIPsecEncryption       = $_.DnsSecQueryIPsecEncryption
+          DnsSecQueryIPsecRequired         = $_.DnsSecQueryIPsecRequired
+          DnsSecValidationRequired         = $_.DnsSecValidationRequired
+          IPsecCARestriction               = $_.IPsecCARestriction
+          DAIPsecRequired                  = $_.DAIPsecRequired
+          DAIPsecEncryptionType            = $_.DAIPsecEncryptionType
+          DANameServers                    = if ($_.DANameServers) { @($_.DANameServers | ForEach-Object { $_.IPAddressToString }) } else { $null }
+        }
       } | ConvertTo-Json -Depth 3
     PS
 
-    json = Puppet::Util::Execution.execute(POWERSHELL + [powershell_script])
+    json = Puppet::Util::Execution.execute(POWERSHELL + [powershell_script], failonfail: false)
 
     if json.empty?
       Puppet.debug("No NRPT rules found.")
@@ -132,7 +132,9 @@ Puppet::Type.type(:windows_dns_client_nrpt_rule).provide(:windows_dns_client_nrp
           })
       end
     rescue JSON::ParserError => e
-      Puppet.warning("Failed to parse NRPT rules: #{e}")
+      Puppet.warning("Failed to parse Nrpt rules: #{e}")
+      Puppet.debug("Raw JSON output: #{json}")
+
       []
     end
   end
