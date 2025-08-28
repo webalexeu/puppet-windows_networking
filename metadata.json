@@ -1,6 +1,6 @@
 {
   "name": "webalex-windows_networking",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "webalex",
   "summary": "Manage the windows networking settings with Puppet",
   "license": "Apache-2.0",
@@ -25,7 +25,9 @@
   ],
   "tags": [
             "windows",
+            "networking",
             "dns",
+            "route",
             "nrpt"
           ],
   "requirements": [

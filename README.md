@@ -14,15 +14,71 @@ Manage the windows networking settings with Puppet.
 
 ## Features
 * Create/edit/delete nrpt rule (`windows_dns_client_nrpt_rule`)
+* Create/edit/delete network route (`windows_network_route`)
 
 ## Usage
 
-### windows_dns_client
+### windows_network_route
+
+Manage individual network route (Persistent route)
+Note: 
+- This resource is only managing manual routes and not routes created by DHCP/routing protocols.
+- IPv4 is the default, to create IPv6 route, use the `address_family` property.
+
+#### Listing Network Routes
+The type and provider is able to enumerate the network route (persistent) existing on the 
+system:
+
+```shell
+C:\>puppet resource windows_network_route
+...
+windows_network_route { '172.16.0.0/16':
+  ensure          => 'present',
+  address_family  => 'IPv4',
+  interface_alias => 'Ethernet',
+  interface_index => 2,
+  next_hop        => '172.16.10.1',
+  provider        => 'windows_network_route',
+  publish         => 'No',
+  route_metric    => 256,
+}
+```
+
+#### Ensuring a nrpt rule
+
+The basic syntax for ensuring route is: 
+
+```puppet
+windows_network_route { 'Example Route':
+  ensure             => present,
+  destination_prefix => '172.16.0.0/16',
+  interface_alias    => $facts['networking']['primary'],
+  next_hop           => '172.16.10.1';
+}
+```
+
+In-place update is not implemented, when the network route defintion change, the route will be deleted and recreated. 
+To delete a network route, set `ensure => absent`.
+
+#### Purging network routes
+
+You can choose to purge unmanaged network routes from the system (be careful! - this will
+remove _any_ network routes that is not managed by Puppet):
+
+```puppet
+resources { 'windows_network_route':
+  purge => true;
+}
+```
+
+
+### windows_dns_client_nrpt_rule
+
 Manage individual nrpt rule
 
 #### Listing Nrpt Rule
 
-The type and provider is able to enumerate the port forward existing on the 
+The type and provider is able to enumerate the nrpt rule existing on the 
 system:
 
 ```shell
@@ -50,7 +106,7 @@ windows_dns_client_nrpt_rule { 'Example Rule 2':
 
 #### Ensuring a nrpt rule
 
-The basic syntax for ensuring rules is: 
+The basic syntax for ensuring rule is: 
 
 ```puppet
 windows_dns_client_nrpt_rule { 'Example Rule':
@@ -63,7 +119,7 @@ If a nrpt rule with the same name but different properties already exists, it wi
 updated to ensure it is defined correctly. To delete a nrpt rule, set
 `ensure => absent`.
 
-#### Purging nrpt rule
+#### Purging nrpt rules
 
 You can choose to purge unmanaged nrpt rule from the system (be careful! - this will
 remove _any_ nrpt rule that is not managed by Puppet):

@@ -7,6 +7,7 @@
 ### Resource types
 
 * [`windows_dns_client_nrpt_rule`](#windows_dns_client_nrpt_rule): Manage NRPT rules on Windows
+* [`windows_network_route`](#windows_network_route): Manage Net routes on Windows
 
 ## Resource types
 
@@ -125,4 +126,68 @@ Specifies the DNS Client NRPT rule name.
 
 The specific backend to use for this `windows_dns_client_nrpt_rule` resource. You will seldom need to specify this ---
 Puppet will usually discover the appropriate provider for your platform.
+
+### <a name="windows_network_route"></a>`windows_network_route`
+
+Manage Net routes on Windows
+
+#### Properties
+
+The following properties are available in the `windows_network_route` type.
+
+##### `address_family`
+
+Valid values: `ipv4`, `ipv6`, `IPv4`, `IPv6`
+
+The IP address family (IPv4 or IPv6).
+
+##### `ensure`
+
+Valid values: `present`, `absent`
+
+How to ensure this net route (`present` or `absent`)
+
+Default value: `present`
+
+##### `interface_alias`
+
+Specifies an alias of network interfaces. The cmdlet modifies IP routes for the interfaces that have the aliases that you specify.
+
+##### `interface_index`
+
+The index of the network interface.
+
+##### `interface_metric`
+
+The metric of the associated interface.
+
+##### `next_hop`
+
+The next hop IP address for the route.
+
+##### `publish`
+
+Valid values: `No`, `Yes`, `Age`
+
+Whether the route is published in router advertisements.
+
+##### `route_metric`
+
+The route metric used to prioritize routes.
+
+#### Parameters
+
+The following parameters are available in the `windows_network_route` type.
+
+* [`destination_prefix`](#-windows_network_route--destination_prefix)
+* [`provider`](#-windows_network_route--provider)
+
+##### <a name="-windows_network_route--destination_prefix"></a>`destination_prefix`
+
+The destination network prefix (e.g., 0.0.0.0/0).
+
+##### <a name="-windows_network_route--provider"></a>`provider`
+
+The specific backend to use for this `windows_network_route` resource. You will seldom need to specify this --- Puppet will
+usually discover the appropriate provider for your platform.
 
