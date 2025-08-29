@@ -6,7 +6,7 @@ Puppet::Type.type(:windows_network_route).provide(:windows_network_route, parent
   desc 'Windows Net route'
   
 
-  POWERSHELL = ['powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command']
+  POWERSHELL ||= ['powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command']
 
   def exists?
     @property_hash[:ensure] == :present

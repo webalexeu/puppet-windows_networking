@@ -44,7 +44,7 @@ windows_network_route { '172.16.0.0/16':
 }
 ```
 
-#### Ensuring a nrpt rule
+#### Ensuring a network route
 
 The basic syntax for ensuring route is: 
 
