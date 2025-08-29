@@ -6,7 +6,7 @@ Puppet::Type.type(:windows_dns_client_nrpt_rule).provide(:windows_dns_client_nrp
   desc 'Windows Dns Client NRPT Rule'
   
 
-  POWERSHELL = ['powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command']
+  POWERSHELL ||= ['powershell.exe', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command']
 
   def exists?
     @property_hash[:ensure] == :present

@@ -1,6 +1,6 @@
 {
   "name": "webalex-windows_networking",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "webalex",
   "summary": "Manage the windows networking settings with Puppet",
   "license": "Apache-2.0",
